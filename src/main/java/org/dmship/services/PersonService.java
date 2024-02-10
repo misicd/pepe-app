@@ -103,6 +103,36 @@ public class PersonService {
     }
 
     @Transactional
+    public void deletePerson(Long personId) {
+        Optional<Person> personFound = personRepository.findById(personId);
+
+        if (personFound.isEmpty()) {
+            String errorMessage = "Person with id '" + personId + "' not found";
+            throw new ResourceConflictException(errorMessage);
+        }
+
+        try {
+            logger.debug("delete person with id {}", personId);
+            personRepository.deleteById(personId);
+        } catch(org.springframework.dao.DataIntegrityViolationException e) {
+            logger.error("DataIntegrityViolationException exception when trying to delete person with id '{}'" +
+                    "\nexception:{}", personId, e.getMessage());
+
+            // TODO: implement analysis into the exact cause of DataIntegrityViolationException exception
+            String errorMessage = "Could not delete person with id '"
+                    + personId + "'";
+            throw new ResourceConflictException(errorMessage);
+        } catch(Exception e) {
+            logger.error("General exception when trying to delete  person with id '{}'" +
+                    "\nexception:{}", personId, e.getMessage());
+
+            String errorMessage = "Could not delete person with id '"
+                    + personId + "', unexpected error";
+            throw new ResourceInternalException(errorMessage);
+        }
+    }
+
+    @Transactional
     public PersonDTO retrievePerson(Long personId) {
         Optional<Person> personFound = personRepository.findById(personId);
 

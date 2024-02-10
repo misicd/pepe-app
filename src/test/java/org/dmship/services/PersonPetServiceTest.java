@@ -93,8 +93,33 @@ class PersonPetServiceTest {
     }
 
     @Test
+    @DisplayName("C1: Delete pet links when owner is deleted")
+    public void givenNewPersonAndPets_whenRemovingPerson_thenPersonPetsRemoved() {
+        //Given (preconditions)
+        PersonDTO personDTO = new PersonDTO("Jan", "Jansen", LocalDate.of(1980, 6, 18),
+                "Kalverhoeve 41, 3992 NX Houten");
+        PetDTO petDTO = new PetDTO("Caesar", 3);
+        PetDTO petDTO2 = new PetDTO("Jackie", 5);
+
+        //When (actions)
+        Long personId1 = personService.createPerson(personDTO);
+        Long petId1 = petService.createPet(petDTO);
+        Long petId2 = petService.createPet(petDTO2);
+
+        personPetService.addPersonPet(personId1, petId1);
+        personPetService.addPersonPet(personId1, petId2);
+
+        personService.deletePerson(personId1);
+
+        PetsDTO petsDTO = personPetService.retrieveAllPersonPets(personId1);
+
+        //Then (postconditions)
+        assertEquals(petsDTO.petIds().size(), 0);
+    }
+
+    @Test
     @DisplayName("C1: Can not link the same pet to two different owners")
-    @Disabled("TODO: fix PersonPet/PersonPetId classes." +
+    @Disabled("TODO: fix PersonPet class." +
             "person_pet is created with PK (person_id, pet_id) instead of specified PK (pet_id)")
     public void givenTwoPersonAndPet_whenAddingPetToTwoOwners_thenErrorNotAllowed() {
         //Given (preconditions)

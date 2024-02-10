@@ -63,7 +63,7 @@ public class PersonPetService {
         PersonPet personPet = person.get().addPet(pet.get());
 
         try {
-            logger.info("save Person {} with added pet {}", person.get(), pet.get());
+            logger.info("save Person {} with linked pet {}", person.get(), pet.get());
 
             personRepository.saveAndFlush(person.get());
         } catch(org.springframework.dao.DataIntegrityViolationException e) {
@@ -118,7 +118,7 @@ public class PersonPetService {
         PersonPet personPet = person.get().removePet(pet.get());
 
         try {
-            logger.info("save Person {} with deleted pet {}", person.get(), pet.get());
+            logger.info("save Person {} with unlinked pet {}", person.get(), pet.get());
 
             personRepository.saveAndFlush(person.get());
         } catch(org.springframework.dao.DataIntegrityViolationException e) {
@@ -152,7 +152,7 @@ public class PersonPetService {
 
             new ArrayList<>();
             List<Long> petIDs = personPets.stream()
-                    .map(personPetId -> personPetId.getPet().getId())
+                    .map(personPet -> personPet.getPetId())
                     .collect(Collectors.toList());
 
             logger.debug("retrieveAllPersonPets for personId {} - found following petIds:\n{}", personId, petIDs);

@@ -12,7 +12,6 @@ import org.mapstruct.Mapping;
 public interface PetMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "personPet", ignore = true)
     Pet toEntity(PetDTO personDTO);
 
     PetDTO toDTO(Pet person);

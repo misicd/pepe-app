@@ -46,12 +46,6 @@ public class Pet {
         setAge(petUpdate.getAge());
     }
 
-    @OneToOne(mappedBy = "pet",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.EAGER)
-    private PersonPet personPet;
-
     @Override
     public boolean equals(Object o) {
         if (this == o)

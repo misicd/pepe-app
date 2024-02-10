@@ -22,7 +22,7 @@
         <lombok.version>1.18.26</lombok.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <javax.validation.version>2.0.1.Final</javax.validation.version>
-        <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
+        <hibernate-validator.version>6.2.0.Final</hibernate-validator.version>
         <mockito-core.version>5.2.0</mockito-core.version>
         <org.springdoc.version>2.2.0</org.springdoc.version>
         <property name="hibernate.cache.use_second_level_cache" value="true"/>

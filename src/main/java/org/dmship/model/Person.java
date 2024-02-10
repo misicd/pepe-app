@@ -35,10 +35,9 @@ public class Person {
     @Size(max = 300)
     private String address;
 
-    @OneToMany(mappedBy = "person",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
     private List<PersonPet> personPets = new ArrayList<>();
 
     public static String createFullName(String firstName, String lastName) {
@@ -68,7 +67,6 @@ public class Person {
     public PersonPet addPet(Pet pet) {
         PersonPet personPet = new PersonPet(this, pet);
         personPets.add(personPet);
-        //pet.setPersonPet(personPet); // we need to let hibernate resolve this reference
         return personPet;
     }
 
@@ -79,20 +77,14 @@ public class Person {
             personPet = iterator.next();
 
             if (personPet.getPet() == pet) {
-                iterator.remove();
-                personPet.setPerson(null);
                 personPet.setPet(null);
+
+                iterator.remove();
                 return personPet;
             }
         }
 
         return personPet;
-    }
-
-    public Optional<PersonPet> findPersonPet(String petName) {
-        return personPets.stream()
-                .filter(personPet -> personPet.getPet().getName().equals(petName))
-                .findAny();
     }
 
     public void update(PersonUpdate personUpdate) {

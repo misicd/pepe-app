@@ -111,9 +111,6 @@ public class PetService {
         }
 
         try {
-            Pet pet = petFound.get();
-            // TODO: first delete PersonPet with pet.id if it exists (or do it via db trigger)
-
             logger.debug("delete pet with id {}", petId);
             petRepository.deleteById(petId);
         } catch(org.springframework.dao.DataIntegrityViolationException e) {

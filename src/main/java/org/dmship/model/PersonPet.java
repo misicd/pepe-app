@@ -14,30 +14,29 @@ import java.util.Objects;
 @AllArgsConstructor
 public class PersonPet {
 
-    @EmbeddedId
-    private PersonPetId id;
+    @Id
+    @Column(name = "pet_id")
+    private Long petId;
 
-    @ManyToOne
-    @MapsId("personId")
-    //@JoinColumn(name = "person_id", nullable = false, insertable = false, updatable = false)
-    private Person person;
+    @Column(name = "person_id")
+    private Long personId;
 
     @OneToOne
-    @MapsId("petId")
+    @MapsId
     private Pet pet;
 
     public PersonPet(Person person, Pet pet) {
-        this.person = person;
+        this.petId = pet.getId();
+        this.personId = person.getId();
         this.pet = pet;
-        this.id = new PersonPetId(person.getId(), pet.getId());
     }
 
     @Override
     public String toString() {
         return "PersonPet {" +
-                "id=" + id +
-                ", person='" + (person != null ? person.getFullName() : "null") +
-                "', pet='" + (pet != null ? pet.getName() : "null") + "'}";
+                "petId=" + petId + ", personId=" + personId +
+                "', pet='" + (pet != null ? pet.getName() : "null") +
+                "'}";
     }
 
     @Override
@@ -49,20 +48,12 @@ public class PersonPet {
             return false;
 
         PersonPet that = (PersonPet) o;
-        return Objects.equals(person, that.person) &&
-                Objects.equals(pet, that.pet);
+        return Objects.equals(petId, that.petId) &&
+                Objects.equals(personId, that.personId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(person, pet);
-    }
-
-    public void setPet(Pet pet) {
-        if (this.pet != null) {
-            this.pet.setPersonPet(null);
-        }
-
-        this.pet = pet;
+        return Objects.hash(petId, personId);
     }
 }
