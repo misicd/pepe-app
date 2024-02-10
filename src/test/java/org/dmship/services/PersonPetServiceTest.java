@@ -119,8 +119,9 @@ class PersonPetServiceTest {
 
     @Test
     @DisplayName("C1: Can not link the same pet to two different owners")
-    @Disabled("TODO: fix PersonPet class." +
-            "person_pet is created with PK (person_id, pet_id) instead of specified PK (pet_id)")
+    @Disabled("TODO: fix issue with person_pet.pet_id primary key getting ignored by hibernate on inserts." +
+            "Hibernate log:" +
+            "create table person_pet (person_id bigint, pet_id bigint not null, primary key (pet_id))")
     public void givenTwoPersonAndPet_whenAddingPetToTwoOwners_thenErrorNotAllowed() {
         //Given (preconditions)
         PersonDTO personDTO = new PersonDTO("Jan", "Jansen", LocalDate.of(1980, 6, 18),
@@ -136,6 +137,8 @@ class PersonPetServiceTest {
 
         personPetService.addPersonPet(personId1, petId1);
 
+        // TODO: currently test is failing because there is no exception in this call.
+        // Using @UniqueConstraint in PersonPet, or @Column.unique does not help
         ResourceConflictException exception = assertThrows(ResourceConflictException.class,
                 () -> personPetService.addPersonPet(personId2, petId1));
 

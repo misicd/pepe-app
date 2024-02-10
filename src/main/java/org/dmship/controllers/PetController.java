@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.dmship.PepeApplicationFeatures;
 import org.dmship.services.PetService;
 import org.dmship.dto.PetDTO;
 import org.slf4j.Logger;
@@ -56,5 +57,17 @@ public class PetController {
     public ResponseEntity<List<PetDTO>> retrievePets() {
         List<PetDTO> petDTOs = this.petService.retrieveAllPets();
         return new ResponseEntity<>(petDTOs, HttpStatus.OK);
+    }
+
+    @Tag(name = "Delete Pet")
+    @Operation(description = "Delete existing pet based on pet id obtained when pet was created")
+    @DeleteMapping(value="/pets/{petId}")
+    public ResponseEntity<Void> deletePet(@PathVariable("petId") Long petId) {
+        if (!PepeApplicationFeatures.DELETE_PET.isActive()) {
+            return new ResponseEntity<Void>(HttpStatus.METHOD_NOT_ALLOWED);
+        }
+
+        this.petService.deletePet(petId);
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 }

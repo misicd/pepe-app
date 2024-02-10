@@ -125,7 +125,7 @@ class PetServiceTest {
     }
 
     @Test
-    @DisplayName("C1: Delete pet's data")
+    @DisplayName("C2: Delete pet's data")
     public void givenPet_whenDeletePet_thenPetDeleted() {
         //Given (preconditions)
         PetDTO petDTO = new PetDTO("Caesar", 3);

@@ -22,9 +22,10 @@
         <lombok.version>1.18.26</lombok.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <javax.validation.version>2.0.1.Final</javax.validation.version>
-        <hibernate-validator.version>6.2.0.Final</hibernate-validator.version>
+        <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
         <mockito-core.version>5.2.0</mockito-core.version>
         <org.springdoc.version>2.2.0</org.springdoc.version>
+        <org.togglz.version>3.3.3</org.togglz.version>
         <property name="hibernate.cache.use_second_level_cache" value="true"/>
         <property name="hibernate.cache.region.factory_class"
                   value="org.hibernate.cache.ehcache.EhCacheRegionFactory"/>
@@ -107,6 +108,23 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${org.springdoc.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.togglz</groupId>
+            <artifactId>togglz-spring-boot-starter</artifactId>
+            <version>${org.togglz.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.togglz</groupId>
+            <artifactId>togglz-testing</artifactId>
+            <version>${org.togglz.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.togglz</groupId>
+            <artifactId>togglz-junit</artifactId>
+            <version>${org.togglz.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -114,6 +132,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${project.parent.version}</version>
                 <configuration>
                     <excludes>
                         <exclude>
