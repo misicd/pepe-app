@@ -1,4 +1,4 @@
-package org.dmship;
+package org.dmship.config;
 
 import org.togglz.core.Feature;
 import org.togglz.core.annotation.Label;

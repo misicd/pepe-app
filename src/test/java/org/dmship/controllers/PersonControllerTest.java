@@ -2,6 +2,7 @@ package org.dmship.controllers;
 
 import org.dmship.PepeApplication;
 import org.dmship.dto.PersonDTO;
+import org.dmship.dto.PersonUpdateDTO;
 import org.dmship.services.PersonService;
 import org.dmship.util.DbResetService;
 import org.dmship.util.JsonUtil;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
@@ -30,10 +32,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PersonControllerTest {
 
     @Autowired
-    DbResetService dbResetService;
+    private MockMvc mvc;
 
     @Autowired
-    private MockMvc mvc;
+    DbResetService dbResetService;
 
     @Autowired
     private PersonService personService;
@@ -105,5 +107,61 @@ class PersonControllerTest {
                         "\"address\":\"Tweede Palensteinhof 35, 2804 GP Gouda\"}]"));
 
         // TODO: implement also example with jsonpath for matching
+    }
+
+    @Test
+    @DisplayName("S1: Update person address forbidden for regular (non-admin) user")
+    @WithUserDetails
+    public void givenPerson_whenUpdatePersonAsUser_thenAccessForbidden() throws Exception {
+        //Given (preconditions)
+        PersonDTO personDTO = new PersonDTO("Jan", "Jansen", LocalDate.of(1980, 6, 18),
+                "Kalverhoeve 41, 3992 NX Houten");
+
+        PersonUpdateDTO personUpdateDTO = new PersonUpdateDTO("Begijnekade 15, 3512 VV Utrecht");
+
+        //When (actions)
+        ResultActions resultActions = mvc.perform(post("/pepe/v1/persons")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JsonUtil.toJson(personDTO)))
+                .andExpect(status().isCreated());
+
+        MvcResult result = resultActions.andReturn();
+        String personIdAsString = result.getResponse().getContentAsString();
+        Long personId = Long.parseLong(personIdAsString);
+
+        ResultActions resultActionsPatch = mvc.perform(patch("/pepe/v1/persons/{personId}", personId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.toJson(personUpdateDTO)));
+
+        //Then (postconditions)
+        resultActionsPatch.andExpect(status().isForbidden());
+    }
+
+    @Test
+    @DisplayName("S1: Update person address allowed for admins")
+    @WithUserDetails(value = "admin")
+    public void givenPerson_whenUpdatePersonAsAdmin_thenPersonUpdated() throws Exception {
+        //Given (preconditions)
+        PersonDTO personDTO = new PersonDTO("Jan", "Jansen", LocalDate.of(1980, 6, 18),
+                "Kalverhoeve 41, 3992 NX Houten");
+
+        PersonUpdateDTO personUpdateDTO = new PersonUpdateDTO("Begijnekade 15, 3512 VV Utrecht");
+
+        //When (actions)
+        ResultActions resultActions = mvc.perform(post("/pepe/v1/persons")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JsonUtil.toJson(personDTO)))
+                .andExpect(status().isCreated());
+
+        MvcResult result = resultActions.andReturn();
+        String personIdAsString = result.getResponse().getContentAsString();
+        Long personId = Long.parseLong(personIdAsString);
+
+        ResultActions resultActionsPatch = mvc.perform(patch("/pepe/v1/persons/{personId}", personId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.toJson(personUpdateDTO)));
+
+        //Then (postconditions)
+        resultActionsPatch.andExpect(status().isOk());
     }
 }

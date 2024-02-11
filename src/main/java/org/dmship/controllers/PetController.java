@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.dmship.PepeApplicationFeatures;
+import org.dmship.config.PepeApplicationFeatures;
 import org.dmship.services.PetService;
 import org.dmship.dto.PetDTO;
 import org.slf4j.Logger;

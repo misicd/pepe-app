@@ -1,7 +1,7 @@
 package org.dmship.controllers;
 
 import org.dmship.PepeApplication;
-import org.dmship.PepeApplicationFeatures;
+import org.dmship.config.PepeApplicationFeatures;
 import org.dmship.dto.PetDTO;
 import org.dmship.exceptions.ResourceConflictException;
 import org.dmship.services.PetService;
@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
