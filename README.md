@@ -19,9 +19,9 @@ Similarly, the pet can be unlinked from the owner via dedicated endpoint.
 
 - run the installed app:
 
-`java -jar -Dspring.datasource.init_db_file.location='app/target/classes/' app/target/app-1.0.0.jar`
+`java -jar -Dspring.datasource.init_db_file.location='app/src/main/init.db/' app/target/app-1.0.0.jar`
 
-**Run Pepe App as standalone app with mySql database in docker container**
+**Run Pepe App as standalone app with mySql database in manually configured docker container**
 --------------------------------------------------
 
 
@@ -38,7 +38,26 @@ Similarly, the pet can be unlinked from the owner via dedicated endpoint.
 
 - create db schema inside mysql db docker container:
 
-`docker exec -i pepe-mysql mysql -uroot -ptest1234 mydb<./app/target/classes/init_db.sql`
+`docker exec -i pepe-mysql mysql -uroot -ptest1234 mydb<./app/src/main/init.db/init_db.sql`
+
+- run the installed app with 'int' config profile:
+
+`java -jar -Dspring.profiles.active=int app/target/app-1.0.0.jar`
+
+**Run Pepe App as standalone app with mySql database using docker-compose**
+--------------------------------------------------
+
+
+- cd to project dir
+- compile the project:
+
+`mvn clean install`
+
+- if necessary, start docker deamon/desktop
+
+- start pepe-mysql-db docker container:
+
+`docker compose up -d -V --build pepe-mysql-db`
 
 - run the installed app with 'int' config profile:
 

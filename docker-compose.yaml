@@ -1,0 +1,13 @@
+version: '3.5'
+
+services:
+  pepe-mysql-db:
+    image: mysql:8.3.0
+    container_name: pepe_mysql_db
+    environment:
+      MYSQL_DATABASE : "mydb"
+      MYSQL_ROOT_PASSWORD : "test1234"
+    volumes:
+      - ./app/src/main/init.db:/docker-entrypoint-initdb.d:ro
+    ports:
+      - 6666:3306
