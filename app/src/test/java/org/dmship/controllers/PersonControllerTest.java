@@ -22,8 +22,7 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.MOCK,
@@ -58,7 +57,7 @@ class PersonControllerTest {
                         .content(JsonUtil.toJson(personDTO)))
                 .andExpect(status().isCreated());
 
-        MvcResult result = resultActions.andReturn();
+            MvcResult result = resultActions.andReturn();
         String personIdAsString = result.getResponse().getContentAsString();
         Long personId = Long.parseLong(personIdAsString);
 
@@ -104,9 +103,9 @@ class PersonControllerTest {
                         "{\"firstName\":\"Laura\"," +
                         "\"lastName\":\"Ramos\"," +
                         "\"dateOfBirth\":[1986,3,12]," +
-                        "\"address\":\"Tweede Palensteinhof 35, 2804 GP Gouda\"}]"));
-
-        // TODO: implement also example with jsonpath for matching
+                        "\"address\":\"Tweede Palensteinhof 35, 2804 GP Gouda\"}]"))
+                .andExpect(jsonPath("$[?(@.firstName == \"Jan\")].lastName").value("Jansen"))
+                .andExpect(jsonPath("$[?(@.firstName == \"Laura\")].lastName").value("Ramos"));
     }
 
     @Test
