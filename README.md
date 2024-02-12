@@ -1,12 +1,12 @@
 Pepe App
 =======================
 
-Pepe App is the REST API application for maintaining the list of the persons, the pets, 
+The Pepe App is the REST API application for maintaining the catalog of persons and pets, 
 and linking and unlinking persons with pets.
-Unlike the actual world where pets always have owner, 
-in line with the project requirements pets in Pepe App by default don't have an owner.
-Instead, pet can be linked to the owner via dedicated endpoint.
-Similarly, pet can be unlinked from the owner via dedicated endpoint.
+Unlike the actual world where pets always have an owner, 
+in line with the project requirements pets in the Pepe App by default don't have an owner.
+Instead, the pet can be linked to the owner via dedicated endpoint.
+Similarly, the pet can be unlinked from the owner via dedicated endpoint.
 
 **Run Pepe App as standalone app with in-memory H2 database**
 --------------------------------------------------
