@@ -21,7 +21,7 @@ Similarly, the pet can be unlinked from the owner via dedicated endpoint.
 
 `java -jar -Dspring.datasource.init_db_file.location='app/src/main/init.db/' app/target/app-1.0.0.jar`
 
-**Run Pepe App as standalone app with mySql database in manually configured docker container**
+**Run Pepe App as standalone app with mySql database in docker container (using docker cli)**
 --------------------------------------------------
 
 
@@ -44,7 +44,7 @@ Similarly, the pet can be unlinked from the owner via dedicated endpoint.
 
 `java -jar -Dspring.profiles.active=int app/target/app-1.0.0.jar`
 
-**Run Pepe App as standalone app with mySql database using docker-compose**
+**Run Pepe App as standalone app with mySql database in docker container (using docker-compose)**
 --------------------------------------------------
 
 
