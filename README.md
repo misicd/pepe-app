@@ -33,6 +33,7 @@ Similarly, pet can be unlinked from the owner via dedicated endpoint.
 - start docker deamon/desktop
 
 - create mysql db docker container:
+
 `docker run -d -p 6666:3306 --name=pepe-mysql --env="MYSQL_ROOT_PASSWORD=test1234" --env="MYSQL_DATABASE=mydb" mysql`
 
 - create db schema inside mysql db docker container:
